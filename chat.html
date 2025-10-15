@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8Б-класс | Реальный Чат 2025</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: linear-gradient(45deg, #667eea, #764ba2); --bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%); --card: rgba(255,255,255,0.95); }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #333; }
+        .header { background: var(--card); padding: 20px 0; position: sticky; top: 0; z-index: 100; }
+        nav { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; justify-content: space-between; }
+        .logo { font-size: 2rem; background: var(--primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .main { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+        .hero { text-align: center; padding: 60px 0; background: var(--card); border-radius: 20px; margin-bottom: 40px; }
+        .hero h1 { font-size: 4rem; background: var(--primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .chat-section { background: var(--card); border-radius: 20px; padding: 30px; margin-bottom: 40px; }
+        .chat-header { font-size: 2rem; margin-bottom: 20px; text-align: center; background: var(--primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        #messages { height: 400px; overflow-y: auto; background: #f8f9ff; border-radius: 15px; padding: 20px; margin-bottom: 20px; }
+        .message { margin: 10px 0; padding: 12px 16px; border-radius: 20px; max-width: 70%; word-wrap: break-word; }
+        .message.sent { background: #667eea; color: white; margin-left: auto; }
+        .message.received { background: white; border: 1px solid #e1e5e9; }
+        .message strong { color: #667eea; }
+        .chat-input { display: flex; gap: 10px; }
+        #messageInput { flex: 1; padding: 15px; border: 2px solid #e1e5e9; border-radius: 25px; font-size: 16px; }
+        #sendBtn { padding: 15px 25px; background: var(--primary); color: white; border: none; border-radius: 25px; cursor: pointer; font-weight: 600; }
+        #sendBtn:hover { transform: scale(1.05); }
+        .online { text-align: center; color: #4CAF50; font-weight: bold; margin-bottom: 10px; }
+        @media (max-width: 768px) { .hero h1 { font-size: 2.5rem; } #messages { height: 300px; } }
+        
+    
+    </style>
+</head>
+<body>
+    <header class="header">   
+        <nav>
+            <div class="logo">📚 8Б-класс</div>
+            <a href="index.html">Артка кайрылуу</a>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="hero">
+            <h1>💬 8б Чат!</h1>
+            <p>Жазышуу группасы</p>
+        </section>
+
+        <section class="chat-section">
+            <div class="chat-header">Чат класса (онлайн: <span id="onlineCount">0</span>)</div>
+            <div id="messages"></div>
+            <div class="chat-input">
+                <input type="text" id="messageInput" placeholder="..сообщения.." maxlength="200">
+                <button id="sendBtn" onclick="sendMessage()">🚀 Отправить</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const socket = io();
+        const messages = document.getElementById('messages');
+        const messageInput = document.getElementById('messageInput');
+        const onlineCount = document.getElementById('onlineCount');
+
+        // Получаем сообщения
+        socket.on('message', (data) => {
+            displayMessage(data);
+        });
+
+        // Счетчик онлайн
+        socket.on('online', (count) => {
+            onlineCount.textContent = count;
+        });
+
+        // Отправка сообщения
+        function sendMessage() {
+            const text = messageInput.value.trim();
+            if (text) {
+                socket.emit('message', { text });
+                messageInput.value = '';
+            }
+        }
+
+        // Отображение сообщения
+        function displayMessage(data) {
+            const div = document.createElement('div');
+            div.className = data.isSent ? 'message sent' : 'message received';
+            div.innerHTML = `<strong>${data.name}:</strong> ${data.text}`;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        // Enter для отправки
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // Загрузка старых сообщений
+        socket.emit('getMessages');
+        socket.on('oldMessages', (oldMessages) => {
+            oldMessages.forEach(displayMessage);
+        });
+    </script>
+    <script src="/socket.io/socket.io.js"></script>
+</body>
+</html>

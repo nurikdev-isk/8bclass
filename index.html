@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8Б-класс | Осмон Элебесов</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: linear-gradient(45deg, #667eea, #764ba2);
+            --secondary: linear-gradient(45deg, #f093fb, #f5576c);
+            --bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card: rgba(255, 255, 255, 0.95);
+            --text: #333;
+            --accent: #ff6b6b;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, sans-serif; 
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: var(--card);
+            backdrop-filter: blur(20px);
+            padding: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: sticky; top: 0; z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px; margin: 0 auto; padding: 0 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem; font-weight: 800;
+            background: var(--primary); -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex; list-style: none; gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text); text-decoration: none; font-weight: 600;
+            transition: all 0.3s ease; position: relative;
+        }
+
+        .nav-links a:hover { color: #667eea; }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: -5px; left: 0;
+            width: 0; height: 2px; background: var(--primary); transition: width 0.3s;
+        }
+        .nav-links a:hover::after { width: 100%; }
+
+        .main { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+
+        .hero {
+            text-align: center; padding: 60px 0; background: var(--card);
+            border-radius: 20px; margin-bottom: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .hero h1 {
+            font-size: 4rem; margin-bottom: 20px;
+            background: var(--primary); -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p { font-size: 1.3rem; color: #666; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; margin-bottom: 40px; }
+
+        .card {
+            background: var(--card); border-radius: 20px; padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); transition: all 0.3s ease;
+            animation: slideUp 0.8s ease-out; animation-fill-mode: both;
+        }
+
+        .card:hover { transform: translateY(-10px); box-shadow: 0 25px 50px rgba(0,0,0,0.15); }
+
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.4s; }
+        .card:nth-child(4) { animation-delay: 0.6s; }
+
+        .card h2 {
+            font-size: 1.8rem; margin-bottom: 15px; color: #333;
+            background: var(--secondary); -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .news-item { 
+            background: #f8f9ff; border-left: 4px solid #667eea; padding: 15px; margin: 10px 0;
+            border-radius: 0 10px 10px 0; transition: all 0.3s;
+        }
+
+        .news-item:hover { background: #e8f0ff; transform: translateX(5px); }
+
+        .chat { height: 400px; background: #f8f9ff; border-radius: 15px; padding: 20px; }
+        .chat-messages { height: 280px; overflow-y: auto; margin-bottom: 15px; padding-right: 10px; }
+        .message { margin: 8px 0; padding: 10px; background: white; border-radius: 15px; max-width: 80%; }
+        .message.sent { background: #667eea; color: white; margin-left: auto; }
+
+        .chat-input { display: flex; gap: 10px; }
+        .chat-input input { flex: 1; padding: 12px; border: 2px solid #e1e5e9; border-radius: 25px; }
+        .chat-input button { padding: 12px 20px; background: var(--primary); color: white; border: none; border-radius: 25px; cursor: pointer; }
+
+        .contact-item { display: flex; align-items: center; gap: 15px; margin: 15px 0; padding: 15px; background: white; border-radius: 15px; }
+
+        .contact-item i { font-size: 1.5rem; color: #667eea; }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav>
+            <div class="logo">📚 8Б-класс</div>
+            <ul class="nav-links">
+                <li><a href="#home">Башкы бет</a></li>
+                <li><a href="#news">Жанылыктар</a></li>
+                <li><a href="#contacts">Байланыш</a></li>
+                <li><a href="chat.html">Чат</a></li>
+            
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section id="home" class="hero">
+            <h1>8Б СИЛА! 🎉</h1>
+            <p>Ынтымактуу класс!</p>
+        </section>
+
+        <div class="grid">
+            <section id="news" class="card">
+                <h2>📰 Жанылыктар</h2>
+                <div class="news-item">
+                    <strong>15.10.25</strong> | Модага даярдангылаа!🏆
+                </div>
+                <div class="news-item">
+                    <strong>15.10.25</strong> | Жасаган Нурсултан&Бексултан 🌌
+                </div>
+                <div class="news-item">
+                    <strong>15.10.25</strong> | Чыныкый чат болот буюрса жасайбыз
+                </div>
+            </section>
+
+            <section id="contacts" class="card">
+                <h2>📞 Байланыш</h2>
+                <div class="contact-item">
+                    <div>📱</div> <strong>Класс жетекчи:</strong> Карыбекова Миргуль +996 779 ??? ???
+                </div>
+                <div class="contact-item">
+                    <div>📍</div> <strong>Адрес:</strong> ул Новостройка 
+                </div>
+                <div class="contact-item">
+                    <div>⏰</div> <strong>Сабак башталышы</strong> Пн-Пт 13:15-6:15
+                </div>
+                
+        </div>
+    </main>
+
+    <script>
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const messages = document.getElementById('messages');
+            if (input.value.trim()) {
+                const msg = document.createElement('div');
+                msg.className = 'message sent';
+                msg.textContent = input.value;
+                messages.appendChild(msg);
+                input.value = '';
+                messages.scrollTop = messages.scrollHeight;
+            }
+        }
+
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+</body>
+</html>
